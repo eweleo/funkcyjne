@@ -1,6 +1,7 @@
 package org.example;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ public class Main {
         Function<Integer, Integer> differenceBetweenSumOfSquaresAndSquareOfSum = a ->
                 IntStream.rangeClosed(1, a).sum() * IntStream.rangeClosed(1, a).sum()
                         - IntStream.rangeClosed(1, a).map(i -> i * i).sum();
-        
+
 
         Function<Double, Double> cubeRoot = new Function<>() {
             @Override
@@ -49,7 +50,7 @@ public class Main {
         BiFunction<Double, Integer, Double> heronStep = new BiFunction<>() {
             @Override
             public Double apply(Double a, Integer step) {
-                return heronStepHelper(a,a,step);
+                return heronStepHelper(a, a, step);
             }
 
             private Double heronStepHelper(Double a, Double x, Integer step) {
@@ -57,11 +58,11 @@ public class Main {
                 if (step == 1) {
                     return x1;
                 }
-                return heronStepHelper(a,x1,--step);
+                return heronStepHelper(a, x1, --step);
             }
         };
 
-        Function<Integer,Long> fibRecur = n -> {
+        Function<Integer, Long> fibRecur = n -> {
             if (n <= 1) return Long.valueOf(n);
 
             long a = 0, b = 1, c;
@@ -70,30 +71,30 @@ public class Main {
                 a = b;
                 b = c;
             }
-            return b ; // b = 817770325994397771
+            return b; // b = 817770325994397771
         };
 
-        Function<Integer,Long> fib = new Function<>() {
+        Function<Integer, Long> fib = new Function<>() {
             @Override
             public Long apply(Integer n) {
-                if(n<=1){
+                if (n <= 1) {
                     return Long.valueOf(n);
                 }
-                return apply(n-1) + apply(n-2);
+                return apply(n - 1) + apply(n - 2);
             }
         };
 
-        Function<Set<Integer>,Set<Set<Integer>>> powerSet = integers -> integers.stream()
-                        .reduce(
-                                Stream.of(Collections.<Integer>emptySet()).collect(Collectors.toSet()),
-                                (powSet, element) -> powSet.stream()
-                                        .flatMap(set -> Stream.of(set, Stream.concat(Stream.of(element), set.stream()).collect(Collectors.toSet())))
-                                        .collect(Collectors.toSet()),
-                                (left, right) -> {
-                                    left.addAll(right);
-                                    return left;
-                                }
-                        );
+        Function<Set<Integer>, Set<Set<Integer>>> powerSet = integers -> integers.stream()
+                .reduce(
+                        Stream.of(Collections.<Integer>emptySet()).collect(Collectors.toSet()),
+                        (powSet, element) -> powSet.stream()
+                                .flatMap(set -> Stream.of(set, Stream.concat(Stream.of(element), set.stream()).collect(Collectors.toSet())))
+                                .collect(Collectors.toSet()),
+                        (left, right) -> {
+                            left.addAll(right);
+                            return left;
+                        }
+                );
 
 
         System.out.println(fibRecur.apply(1000));
